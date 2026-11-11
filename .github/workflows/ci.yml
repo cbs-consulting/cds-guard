@@ -67,3 +67,23 @@ jobs:
         with:
           root: test/fixtures/bookshop
           version: local
+
+  # One check to require in branch protection, so the matrix can change without updating the
+  # protection rules. It fails when any job above fails or is cancelled.
+  test-features:
+    name: Test features
+    if: ${{ always() }}
+    needs: [test, package, action]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check the results of all jobs
+        env:
+          RESULTS: ${{ join(needs.*.result, ' ') }}
+        run: |
+          echo "Results: $RESULTS"
+          for result in $RESULTS; do
+            if [ "$result" != "success" ]; then
+              echo "::error::A required job did not succeed."
+              exit 1
+            fi
+          done
