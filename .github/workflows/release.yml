@@ -1,11 +1,11 @@
 name: Release
 # Publishes a tested commit to npm and creates a GitHub release with the version's CHANGELOG.md
 # entry. Started by hand from the Actions tab; nothing is published until a maintainer approves the
-# "release" environment.
+# "npm" environment.
 #
 # npm accepts the upload because this workflow is the package's trusted publisher (npmjs.com ->
 # cds-guard -> Settings -> Trusted publishing: cbs-consulting/cds-guard, workflow release.yml,
-# environment release), so no npm token is stored here. The first publish has to be done by hand.
+# environment npm), so no npm token is stored here. The first publish has to be done by hand.
 on:
   workflow_dispatch:
     inputs:
@@ -53,7 +53,7 @@ jobs:
     needs: check
     if: ${{ !inputs.dry_run }}
     runs-on: ubuntu-latest
-    environment: release
+    environment: npm
     permissions:
       contents: write
       id-token: write
