@@ -18,3 +18,4 @@ the date.
 - `cds-guard init` creates `.guard/protected.yml`, and `cds-guard list` shows every protected item.
 - `check --format json` and `--format junit` for pipelines that show test results.
 - Ready-made CI steps for GitHub Actions, Azure Pipelines, Bitbucket Pipelines and GitLab CI.
+- Works the same on Windows, macOS and Linux: messages show paths with `/`, and line endings do not change hashes.
