@@ -6,6 +6,8 @@ the date.
 
 ## Unreleased
 
+## 0.1.0 - 2026-11-11
+
 - First version. `cds-guard check` fails a pipeline when a protected CDS entity, element or
   annotation, a code block between `@protected-begin` and `@protected-end`, a file or a value in a
   JSON file changes without its lock file being updated.
