@@ -6,6 +6,10 @@ the date.
 
 ## Unreleased
 
+- New agent skill for AI coding agents such as Claude Code. `cds-guard skill --write` puts it in
+  `.claude/skills/cds-guard/SKILL.md` (or another folder). It tells the agent how to set up the
+  guard, to check whether a file is protected before editing it, to run `check` afterwards, and to
+  lock only changes the user asked for.
 - New `examples/` folder with a complete configuration for GitHub, GitLab, Bitbucket Cloud and
   Azure DevOps. Each one shows other kinds of rules and how the platform names users, groups,
   teams and roles as approvers.
