@@ -106,3 +106,16 @@ test('the agent skill has valid frontmatter and only names real commands', async
   assert.ok(used.length > 3)
   for (const cmd of new Set(used)) assert.match(help, new RegExp(`^  ${cmd}\\b`, 'm'), `unknown command "${cmd}" in SKILL.md`)
 })
+
+test('both plugin manifests match the package and point at the skill', () => {
+  const pkg = require('../package.json')
+  const root = path.join(__dirname, '..')
+  for (const file of ['plugin.json', path.join('.claude-plugin', 'plugin.json')]) {
+    const manifest = JSON.parse(fs.readFileSync(path.join(root, file), 'utf8'))
+    assert.equal(manifest.name, 'cds-guard', file)
+    assert.equal(manifest.version, pkg.version, `${file}: raise "version" with package.json`)
+    assert.equal(manifest.license, pkg.license, file)
+  }
+  assert.match(JSON.parse(fs.readFileSync(path.join(root, 'plugin.json'), 'utf8')).$schema, /^https:\/\/agent-plugins\.org\/schemas\/1\.\d+\.\d+\/plugin\.schema\.json$/)
+  assert.ok(fs.existsSync(path.join(root, 'skills', 'cds-guard', 'SKILL.md')))
+})

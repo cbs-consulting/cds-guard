@@ -1,6 +1,7 @@
 ---
 name: cds-guard
 description: Sets up and uses cds-guard, which stops accidental changes to protected CDS entities, annotations, code blocks, files and JSON values in CAP and UI5 projects. Use when the user wants to protect parts of a CAP or UI5 project or require approval for changes to them; in a repository with .guard/protected.yml, before and after editing .cds files, Fiori annotations, manifest.json, code between @protected-begin and @protected-end, CODEOWNERS or the CI pipeline; and when a cds-guard check fails.
+license: Apache-2.0
 ---
 
 # cds-guard

@@ -247,6 +247,24 @@ npx @cbs-consulting/cds-guard skill --write                 # .claude/skills/cds
 npx @cbs-consulting/cds-guard skill --write .agents/skills  # another agent's skills folder
 ```
 
+The repository is also a plugin in the
+[cbs Agentic Marketplace](https://github.com/cbs-consulting/agentic-marketplace), so you can
+install the skill once for all your projects:
+
+```text
+/plugin marketplace add cbs-consulting/agentic-marketplace     # Claude Code
+/plugin install cds-guard@cbs-consulting
+```
+
+```bash
+copilot plugin marketplace add cbs-consulting/agentic-marketplace  # GitHub Copilot CLI
+copilot plugin install cds-guard@cbs-consulting
+codex plugin marketplace add cbs-consulting/agentic-marketplace    # Codex, then /plugins
+```
+
+The plugin follows the default branch of this repository. `skill --write` gives you the copy that
+matches your installed version instead.
+
 Claude Code picks it up from `.claude/skills/`. Other agents that read the
 [Agent Skills](https://agentskills.io) format take the folder they look in. Commit the file so the
 whole team gets it. The skill belongs to the installed version: run the command again after an
