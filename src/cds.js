@@ -71,7 +71,14 @@ function pickAnnotation (node, anno) {
 function locate (node, root, cdsRoot) {
   const loc = node && node.$location
   if (!loc || !loc.file) return {}
-  return { file: path.relative(root, path.resolve(cdsRoot, loc.file)).split(path.sep).join('/'), line: loc.line }
+  const abs = path.resolve(cdsRoot, loc.file)
+  let rel = path.relative(root, abs)
+  // @sap/cds reports locations from the real path, which differs behind symlinks (macOS /var)
+  // and Windows short names (RUNNER~1).
+  if (rel.startsWith('..') || path.isAbsolute(rel)) {
+    try { rel = path.relative(fs.realpathSync.native(root), fs.realpathSync.native(abs)) } catch { /* keep it */ }
+  }
+  return { file: rel.split(path.sep).join('/'), line: loc.line }
 }
 
 async function collectCds (rule, config, root = config.cdsRoot) {

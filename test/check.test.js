@@ -1,6 +1,9 @@
 'use strict'
 const { test } = require('node:test')
 const assert = require('node:assert/strict')
+const fs = require('node:fs')
+const os = require('node:os')
+const path = require('node:path')
 const { execFileSync } = require('node:child_process')
 const { project } = require('./helpers')
 const { loadConfig } = require('../src/config')
@@ -161,6 +164,16 @@ test('problems point at the file and line of the changed item', async t => {
   const result = await check(p.dir, loadConfig(p.dir))
   const at = result.violations.flatMap(v => v.problems.map(x => `${x.item} ${x.file}:${x.line}`))
   assert.deepEqual(at, ['cds:my.app.Orders.netAmount db/schema.cds:10', 'marker:tax-calc@srv/tax.js srv/tax.js:2'])
+})
+
+test('locations stay relative when the root is reached through a link', async t => {
+  const p = await lockedProject(t)
+  const link = path.join(os.tmpdir(), `cds-guard-link-${process.pid}-${Date.now()}`)
+  fs.symlinkSync(p.dir, link, 'junction')
+  t.after(() => fs.unlinkSync(link))
+  p.edit('db/schema.cds', 'netAmount : Decimal(9, 2)', 'netAmount : Decimal(11, 2)')
+  const result = await check(link, loadConfig(link))
+  assert.deepEqual(result.violations.flatMap(v => v.problems.map(x => `${x.file}:${x.line}`)), ['db/schema.cds:10'])
 })
 
 function git (dir, ...args) {

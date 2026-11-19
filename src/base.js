@@ -34,7 +34,7 @@ async function withBase (root, ref, fn) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'cds-guard-base-'))
   try {
     git(top, ['worktree', 'add', '--quiet', '--detach', dir, commit])
-    const sub = path.relative(fs.realpathSync(top), fs.realpathSync(root))
+    const sub = path.relative(fs.realpathSync.native(top), fs.realpathSync.native(root))
     return await fn(path.join(dir, sub))
   } finally {
     try { git(top, ['worktree', 'remove', '--force', dir]) } catch { /* removed below */ }
